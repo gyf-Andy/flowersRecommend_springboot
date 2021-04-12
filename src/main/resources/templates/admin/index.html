@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>鲜花管理系统首页</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+<body>
+
+<style>
+
+    .adminUl li :hover{
+        background: blue;
+    }
+</style>
+
+
+<div class="container-fiuled">
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="">
+            <div class="row clearfix">
+                <div class="col-md-2 column" style="background: rgba(14,20,52,0.92);height:0px;padding-bottom:47%;box-shadow:7px 7px 7px #2f333e">
+                    <div class="info d-flex align-items-center" style="background: #0c5460;margin-top: -20px;margin-right: -15px;height: 80px;">
+                        <div class="content" >
+                            <div class="logo text-center" >
+                                <h1 style="color: white;line-height: 80px"><span class="glyphicon glyphicon-text-background"></span> Admin</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="nav nav-pills nav-stacked text-center adminUl" style="font-size: 15px;height: 40%;margin-right: -15px;margin-top: 20px">
+                        <li ><a href="#" > 主页  &emsp;<span class="glyphicon glyphicon-send"></span></a></li>
+                        <li ><a th:href="${'/admin/toUserControlPage'}">用户管理   &emsp;<span class="glyphicon glyphicon-user"></span></a></li>
+                        <li><a th:href="${'/admin/toAdminUserControl'}" > 系统用户  &emsp;<span class="glyphicon glyphicon-star-empty"></span></a></li>
+                        <li><a th:href="${'/admin/toFlowerControl'}" >花卉管理 &emsp;<span class="glyphicon glyphicon-leaf"></span></a></li>
+                        <li><a th:href="${'javascript:logout()'}" > 退出系统 &emsp;<span class="	glyphicon glyphicon-off"></span></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-10 column">
+                    <div  style="height: 81px;width:100%;background: #0c5460;color: white;float: none;display: inline-block;vertical-align: middle;box-shadow:7px 7px 7px #2f333e;margin-left: -10px;">
+                            <h1 class="text-center">Flower Management System</h1>
+                    </div>
+                    <div class="recommend" style="margin-top: 2%">
+                        <div class="row">
+                            <div class="col-sm-4 col-md-4" >
+                                <div class="thumbnail" >
+                                    <div style="margin-left: 2%">
+                                        <p style="color: #269abc">总用户数：(个)</p>
+                                        <h1 style="margin-left: 3%" th:text="${userCount}"></h1>
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4" >
+                                <div class="thumbnail">
+                                    <div style="margin-left: 2%">
+                                        <p style="color: #269abc">总花卉种类数：(种)</p>
+                                        <h1 style="margin-left: 3%" th:text="${flowerCopunt}"></h1>
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4" >
+                                <div class="thumbnail">
+                                    <div style="margin-left: 2%">
+                                        <p style="color: #269abc">近一周用户注册数：(个)</p>
+                                        <h1 style="margin-left: 3%" th:text="${aWeekUser}"></h1>
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recommend">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                                <div id="flower" style="width: 600px;height:400px;"></div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                                <div id="register" style="width: 600px;height:400px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" class="input-text" th:value="${nameList}"
+                       name="realName" id="realName">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    //获取model中的数据
+    var saleList = [[${saleList}]];
+    var nameList = [[${nameList}]];
+    var priceL = [[${priceL}]];
+    var idL = [[${idL}]];
+    // alert(saleList);
+    // alert(nameList);
+    // 基于准备好的dom，初始化echarts实例
+    var flowerSales = echarts.init(document.getElementById('flower'));
+
+    // 指定图表的配置项和数据
+    var salesOption = {
+        title: {
+            text: '花卉销量排行'
+        },
+        tooltip: {},
+        legend: {
+            data:['销量']
+        },
+        xAxis: {
+            data: nameList
+        },
+        yAxis: {},
+        series: [{
+            name: '销量',
+            type: 'bar',
+            data: saleList
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    flowerSales.setOption(salesOption);
+
+    // 基于准备好的dom，初始化echarts实例
+    var userRegister = echarts.init(document.getElementById('register'));
+
+    // 指定图表的配置项和数据
+    var registerOption = {
+        title: {
+            text: '花卉价格排行'
+        },
+        tooltip: {},
+        legend: {
+            data:['价格']
+        },
+        xAxis: {
+            type: 'category',
+            data: idL
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            name: '价格',
+            data: priceL,
+            type: 'line'
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    userRegister.setOption(registerOption);
+
+    function logout(){
+        $.ajax({
+            type: "post",
+            url: "/admin/logout",
+            success: function(result){
+                alert(result.rspMsg);
+                location.href="/admin/toAdminLoginPage";
+            }
+        })
+    }
+</script>
+
+</body>
+</html>

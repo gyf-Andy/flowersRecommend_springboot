@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="flower2:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>flower2</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="flower2-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="flower2:war exploded" />
+    </root>
+  </artifact>
+</component>
