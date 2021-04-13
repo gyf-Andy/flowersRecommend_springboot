@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>管理员用户管理页面</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+<body>
+
+<style>
+
+    .adminUl li :hover{
+        background: blue;
+    }
+</style>
+
+<div class="container-fiuled">
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="">
+            <div class="row clearfix">
+                <div class="col-md-2 column" style="background: rgba(14,20,52,0.92);height:0px;padding-bottom:47%;box-shadow:7px 7px 7px #2f333e">
+                    <div class="info d-flex align-items-center" style="background: #0c5460;margin-top: -20px;margin-right: -15px;height: 80px;">
+                        <div class="content" >
+                            <div class="logo text-center" >
+                                <h1 style="color: white;line-height: 80px"><span class="glyphicon glyphicon-text-background"></span> Admin</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="nav nav-pills nav-stacked text-center adminUl" style="font-size: 15px;height: 40%;margin-right: -15px;margin-top: 20px">
+                        <li ><a th:href="${'/admin/toIndexPage'}" >主页 &emsp;<span class="glyphicon glyphicon-send"></span></a></li>
+                        <li ><a th:href="${'/admin/toUserControlPage'}" > 用户管理 &emsp;<span class="glyphicon glyphicon-user"></span></a></li>
+                        <li><a href="#" >系统用户 &emsp;<span class="glyphicon glyphicon-star-empty"></span> </a></li>
+                        <li><a th:href="${'/admin/toFlowerControl'}" > 花卉管理 &emsp;<span class="glyphicon glyphicon-leaf"></span></a></li>
+                        <li><a th:href="${'javascript:logout()'}" > 退出系统 &emsp;<span class="	glyphicon glyphicon-off"></span></a></li>
+                    </ul>
+
+                </div>
+                <div class="col-md-10 column">
+                    <div  style="height: 81px;width:100%;background: #0c5460;color: white;float: none;display: inline-block;vertical-align: middle;box-shadow:7px 7px 7px #2f333e;margin-left: -10px">
+                        <h1 class="text-center">Flower Management System</h1>
+                    </div>
+                    <div>
+                        <div  class="text-center" style="margin-top: 2%">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-4">
+                                    <form id="selectForm" class="bs-example bs-example-form" role="form" action="/admin/selectOneAdmin" method="post">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="account" placeholder="请输入账号进行查询">
+                                            <span class="input-group-btn">
+                                                <input id="select" type="submit" class="btn btn-default" >
+                                                    Go!
+                                                </input>
+                                            </span>
+                                        </div><!-- /input-group -->
+                                    </form>
+                                </div><!-- /.col-lg-6 -->
+                                <div class="col-lg-4">
+                                    <span th:if="${session.admin.getIdentity()=='root'}">
+                                        <button class="btn btn-default" data-toggle="modal" data-target="#myModal">
+                                        添加管理员账户
+                                    </button>
+                                    </span>
+
+                                    <!-- 模态框（Modal） -->
+                                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-hidden="true">×
+                                                    </button>
+                                                    <h4 class="modal-title" id="myModalLabel">
+                                                        管理员用户添加
+                                                    </h4>
+                                                </div>
+                                                <form class="form-horizontal" role="form">
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="firstname" class="col-sm-2 control-label">账号</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" id="account"
+                                                                       placeholder="请输入账号">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="lastname" class="col-sm-2 control-label">密码</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" id="password"
+                                                                       placeholder="请输入密码">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="lastname" class="col-sm-2 control-label">姓名</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" id="name"
+                                                                       placeholder="请输入姓名">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"  class="btn btn-default"
+                                                                data-dismiss="modal">关闭
+                                                        </button>
+                                                        <button type="button" id="add" class="btn btn-primary">
+                                                            确认添加
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div><!-- /.row -->
+                        </div>
+                        <table class="table table-hover">
+                            <caption>用户信息展示</caption>
+                            <thead>
+                            <tr>
+                                <th>编号(ID)</th>
+                                <th>账号(ACCOUNT)</th>
+                                <th>密码(PASSWORD)</th>
+                                <th>姓名(NAME)</th>
+                                <th>身份(IDENTITY)</th>
+                                <th>操作(OPERATE)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="admin:${pageInfo.list}">
+                                <td th:text="${admin.id}"></td>
+                                <td th:text="${admin.account}"></td>
+                                <span th:switch="${session.admin.getIdentity()=='root'}">
+                                    <td th:case="true" th:text="${admin.password}"></td>
+                                    <td th:case="false" th:text="非root用户不可查看"></td>
+                                </span>
+                                <td th:text="${admin.name}"></td>
+                                <td th:text="${admin.identity}"></td>
+                                <span th:switch="${session.admin.getIdentity()=='root'}">
+                                    <td th:case="false"  th:text="非root账户不可操作"></td>
+                                    <td th:case="true"  >
+                                        <button type="button" class="btn-sm btn-default" title="" th:onclick="'deleteById('+${admin.id}+')'">注 销</button>
+                                        <button type="button" class="btn-sm btn-default" data-toggle="modal" data-target="#changeModal" th:onclick="changeById([[${admin.account}]],[[${admin.password}]],[[${admin.name}]])" >更 改</button>
+                                        <!-- 模态框（Modal） -->
+                                        <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                        <h4 class="modal-title" id="myModalLabel">
+                                                            管理员用户更改
+                                                        </h4>
+                                                    </div>
+                                                    <form class="form-horizontal" role="form">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label for="firstname" class="col-sm-2 control-label">账号</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" id="changeAccount"
+                                                                           placeholder="请输入账号" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="lastname" class="col-sm-2 control-label">密码</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" id="changePassword"
+                                                                           placeholder="请输入密码">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="lastname" class="col-sm-2 control-label">姓名</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" id="changeName"
+                                                                           placeholder="请输入姓名">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button"  class="btn btn-default"
+                                                                    data-dismiss="modal">关闭
+                                                            </button>
+                                                            <button type="button" id="change" class="btn btn-primary">
+                                                                确认更改
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+                                    </td>
+                                </span>
+                            </tr>
+                            <tr class="text-center">
+                                <td colspan="6" >
+                                    <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+                                    <ul class="pagination">
+                                        <li><a th:href="@{/admin/toAdminUserControl(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">&laquo;</a></li>
+                                    </ul>
+                                    <ul class="pagination" th:each="pageNum : ${#numbers.sequence(1,pageInfo.pages)}">
+                                        <li><a th:href="'/admin/toAdminUserControl?pageNum='+${pageNum}" th:text="${pageNum}"></a></li>
+                                    </ul>
+                                    <ul class="pagination">
+                                        <li><a th:href="@{/admin/toAdminUserControl(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">&raquo;</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    // $(function (){
+    //     $("[data-toggle='popover']").popover();
+    // });
+
+    function deleteById(id) {
+
+        if (confirm("是否要注销")){
+            $.ajax({
+                url: '/admin/deleteAdminById',
+                data: {id:id},
+                success:function(msg){
+                    if (msg.rspCode=="200"){
+                        alert(msg.rspMsg);
+                        location.reload(true);
+                    }else{
+                        alert(msg.rspMsg)
+                    }
+                },
+                error:function(){
+                    alert("请求失败！");
+                }
+            });
+        }
+    }
+
+    function changeById(account,password,name){
+
+        $('#changeAccount').val(account);
+        $('#changePassword').val(password);
+        $('#changeName').val(name);
+    }
+
+    $(function () {
+        $('#add').click(function () {
+            event.preventDefault();
+            var account = $('#account').val();
+            var password = $('#password').val();
+            var name=$('#name').val();
+            if (account==""||password==""){
+                alert("账号密码不能为空！")
+            }else{
+                $.ajax({
+                    type: "post",
+                    url: "/admin/addAdmin",
+                    data: {
+                        account: account,
+                        password: password,
+                        name: name
+                    },
+                    success: function (result) {
+                        alert(result.rspMsg)
+                        location.reload();
+                    }
+                })
+            }
+        })
+    })
+
+    $(function () {
+        $('#change').click(function () {
+            event.preventDefault();
+            var account = $('#changeAccount').val();
+            var password = $('#changePassword').val();
+            var name=$('#changeName').val();
+            if (account==""||password==""){
+                alert("账号密码不能为空！")
+            }else{
+                $.ajax({
+                    type: "post",
+                    url: "/admin/changeAdmin",
+                    data: {
+                        account: account,
+                        password: password,
+                        name: name
+                    },
+                    success: function (result) {
+                        alert(result.rspMsg)
+                        location.reload();
+                    }
+                })
+            }
+        })
+    })
+
+    function logout(){
+        $.ajax({
+            type: "post",
+            url: "/admin/logout",
+            success: function(result){
+                alert(result.rspMsg);
+                location.href="/admin/toAdminLoginPage";
+            }
+        })
+    }
+</script>
+
+</body>
+</html>

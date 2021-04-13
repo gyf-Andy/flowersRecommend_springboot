@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>鲜花推荐系统</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7/dist/css/bootstrap.min.css">
+    <style>
+        .title, .description {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+<header class="navbar navbar-default navbar-fixed-top bs-docs-nav" id="top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="" class="navbar-brand">欢迎来到鲜花推荐系统</a>
+        </div>
+        <div class="navbar-collapse collapse" role="navigation">
+            <ul class="nav navbar-nav navbar-right hidden-sm">
+                <li style="cursor: pointer"><a onclick="logout()">退出系统</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<div class="container" style="margin-top: 150px">
+    <div class="" id="search">
+        <div class="form-group">
+            <div class="input-group input-group-lg">
+                <input type="text" class="form-control" id="flower-keyword" placeholder="根据关键字搜索鲜花">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" onclick="searchFlower()">搜索</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <h4 style="color: red; margin:40px 0 20px;">TOP4鲜花:</h4>
+    <div class="recommend">
+        <div class="row">
+            <div class="col-sm-3 col-md-3" th:each="flower : ${flowers}">
+                <div class="thumbnail">
+                    <img th:src="${flower.image}">
+                    <div class="caption">
+                        <h3 class="title" th:text="${flower.title}"></h3>
+                        <p class="description"><span th:text="${flower.description}"></span></p>
+                        <p style="color: red">价格:<span class="left" th:text="${flower.price}"></span><a
+                                th:href="${'https://www.aihuaju.com' + flower.href}"
+                                class="btn btn-sm btn-success pull-right" target="_blank" role="button">前往购买</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/jquery.js"></script>
+<script src="/static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function logout() {
+        $.ajax({
+            type: "POST",
+            url: "/logout",
+            success: function (result) {
+                alert(result.rspMsg)
+                setTimeout(function () {
+                    location.href="/login"
+                },1000);
+            }
+        })
+    }
+
+    function searchFlower() {
+        var flowerKeyword = $('#flower-keyword').val()
+        location.href="/flower/search?keyword=" + flowerKeyword + "&page=1&price=0&sale=0";
+    }
+
+
+
+</script>
+</body>
+</html>
+

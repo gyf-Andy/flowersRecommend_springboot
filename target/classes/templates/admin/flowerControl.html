@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>鲜花管理页面</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 引入 echarts.js -->
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+</head>
+<body>
+
+<style>
+
+    .adminUl li :hover{
+        background: blue;
+    }
+</style>
+
+
+<div class="container-fiuled">
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="">
+            <div class="row clearfix">
+                <div class="col-md-2 column" style="background: rgba(14,20,52,0.92);height:0px;padding-bottom:47%;box-shadow:7px 7px 7px #2f333e">
+
+                    <div class="info d-flex align-items-center" style="background: #0c5460;margin-top: -20px;margin-right: -15px;height: 80px;">
+                        <div class="content" >
+                            <div class="logo text-center" >
+                                <h1 style="color: white;line-height: 80px"><span class="glyphicon glyphicon-text-background"></span> Admin</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="nav nav-pills nav-stacked text-center adminUl" style="font-size: 15px;height: 40%;margin-right: -15px;margin-top: 20px">
+                        <li ><a th:href="${'/admin/toIndexPage'}" >主页 &emsp;<span class="glyphicon glyphicon-send"></span></a></li>
+                        <li ><a th:href="${'/admin/toUserControlPage'}" > 用户管理 &emsp;<span class="glyphicon glyphicon-user"></span></a></li>
+                        <li><a th:href="${'/admin/toAdminUserControl'}" >系统用户 &emsp;<span class="glyphicon glyphicon-star-empty"></span> </a></li>
+                        <li><a href="#" > 花卉管理 &emsp;<span class="glyphicon glyphicon-leaf"></span></a></li>
+                        <li><a th:href="${'javascript:logout()'}" > 退出系统 &emsp;<span class="	glyphicon glyphicon-off"></span></a></li>
+                    </ul>
+
+                </div>
+                <div class="col-md-10 column">
+                    <div  style="height: 81px;width:100%;background: #0c5460;color: white;float: none;display: inline-block;vertical-align: middle;box-shadow:7px 7px 7px #2f333e;margin-left: -10px">
+                        <h1 class="text-center">Flower Management System</h1>
+                    </div>
+                    <div>
+                        <div  class="text-center" style="margin-top: 2%">
+                            <form id="selectForm" class="bs-example bs-example-form" role="form" action="/admin/selectFlower" method="post">
+                                <div class="row">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-6">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="keyWord" placeholder="请输入关键字进行查询">
+                                            <span class="input-group-btn">
+						                        <input id="select" type="submit" class="btn btn-default" >
+							                        Go!
+                                                </input>
+                                            </span>
+                                        </div><!-- /input-group -->
+                                    </div><!-- /.col-lg-6 -->
+                                    <div class="col-lg-3"></div>
+                                </div><!-- /.row -->
+                            </form>
+                        </div>
+                        <table class="table table-hover">
+                            <caption>用户信息展示</caption>
+                            <thead>
+                            <tr>
+                                <th>编号(ID)</th>
+                                <th>花名(TITLE)</th>
+                                <th>价格(PRICE)</th>
+                                <th>已售数量(SALE)</th>
+                                <th>描述(DESCRIPTION)</th>
+                                <th>操作(OPERATE)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="flower:${pageInfo.list}">
+                                <td th:text="${flower.id}"></td>
+                                <td th:text="${flower.title}"></td>
+                                <td th:text="${flower.price}"></td>
+                                <td th:text="${flower.sale}"></td>
+                                <td th:text="${flower.description}"></td>
+                                <td ><button type="button" class="btn-sm btn-default" title="" th:onclick="'deleteById('+${flower.id}+')'">删 除</button></td>
+                            </tr>
+                            <tr class="text-center">
+
+                                <td colspan="6" >
+                                    <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+
+                                    <ul class="pagination">
+                                        <li><a th:href="@{/admin/toFlowerControl(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">&laquo;</a></li>
+                                    </ul>
+                                    <ul class="pagination" th:each="pageNum : ${pageInfo.navigatepageNums}">
+                                        <li><a th:href="'/admin/toFlowerControl?pageNum='+${pageNum}" th:text="${pageNum}"></a></li>
+                                    </ul>
+                                    <ul class="pagination">
+                                        <li><a th:href="@{/admin/toFlowerControl(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">&raquo;</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    // $(function () {
+    //     $("[data-toggle='popover']").popover();
+    // });
+
+    function deleteById(id) {
+
+        if (confirm("是否要删除")){
+            $.ajax({
+                url: '/admin/deleteFlowerById',
+                data: {id:id},
+                success:function(msg){
+                    if (msg.rspCode=="200"){
+                        alert("删除成功！");
+                        location.reload(true);
+                    }else{
+                        alert("删除失败！")
+                    }
+                },
+                error:function(){
+                    alert("请求失败！");
+                }
+            });
+        }
+    }
+
+    function logout(){
+        $.ajax({
+            type: "post",
+            url: "/admin/logout",
+            success: function(result){
+                alert(result.rspMsg);
+                location.href="/admin/toAdminLoginPage";
+            }
+        })
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>鲜花推荐系统</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7/dist/css/bootstrap.min.css">
+    <style>
+        .title, .description {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+<header class="navbar navbar-default navbar-fixed-top bs-docs-nav" id="top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="" class="navbar-brand">欢迎来到鲜花推荐系统</a>
+        </div>
+        <div class="navbar-collapse collapse" role="navigation">
+            <ul class="nav navbar-nav navbar-right hidden-sm">
+                <li style="cursor: pointer"><a onclick="logout()">退出系统</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<div class="container" style="margin-top: 150px">
+    <div class="row" id="search">
+        <div class="form-group">
+            <div class="input-group input-group-lg">
+                <input type="text" class="form-control" th:value="${keyword}" id="flower-keyword" placeholder="根据关键字搜索鲜花">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" onclick="searchFlower()">搜索</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="btn-group" role="group" style="margin-left: 10px">
+            <button type="button" onclick="searchFlower()" th:class="${sale==0&&price==0 ? 'btn btn-success' : 'btn btn-default'}">综合</button>
+            <button type="button" th:onclick="saleFlower([[${sale}]])" th:class="${sale==0 ? 'btn btn-default' : 'btn btn-success'}">
+                <span th:if="${sale==1}" class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                <span th:if="${sale==2}" class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                销量
+            </button>
+            <button type="button" th:onclick="priceFlower([[${price}]])" th:class="${price==0 ? 'btn btn-default' : 'btn btn-success'}">
+                <span th:if="${price==1}" class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                <span th:if="${price==2}" class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                价格
+            </button>
+        </div>
+    </div>
+    <div class="recommend" style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-sm-3 col-md-3" th:each="flower : ${page.list}">
+                <div class="thumbnail">
+                    <img th:src="${flower.image}">
+                    <div class="caption">
+                        <h3 class="title" th:text="${flower.title}"></h3>
+                        <p class="description"><span th:text="${flower.description}"></span></p>
+                        <p style="color: red">价格:<span class="left" th:text="${flower.price}"></span>
+                            &nbsp;销量:<span class="left" th:text="${flower.sale}"></span><a
+                                th:href="${'https://www.aihuaju.com' + flower.href}"
+                                class="btn btn-sm btn-success pull-right" target="_blank" role="button">前往购买</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="text-align: center">
+            <ul class="pagination">
+                <li>
+                    <a th:href="'/flower/search?keyword='+${keyword} + '&page=1&price='+ ${price} + '&sale=' + ${sale}">
+                        <span aria-hidden="true">首页</span>
+                    </a>
+                </li>
+                <li th:if="${page.hasPreviousPage}">
+                    <a th:href="'/flower/search?keyword='+${keyword} + '&page=' + ${page.pageNum - 1} +'&price='+ ${price} + '&sale=' + ${sale}">
+                        <span aria-hidden="true">上一页</span>
+                    </a>
+                </li>
+                <li th:each="i : ${page.navigatepageNums}">
+                    <a th:href="'/flower/search?keyword='+${keyword} + '&page=' + ${i} +'&price='+ ${price} + '&sale=' + ${sale}"
+                       th:text="${i}">1</a>
+                </li>
+                <li th:if="${page.hasNextPage}">
+                    <a th:href="'/flower/search?keyword='+${keyword} + '&page=' + ${page.pageNum + 1} +'&price='+ ${price} + '&sale=' + ${sale}">
+                        <span aria-hidden="true">下一页</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="'/flower/search?keyword='+${keyword} + '&page=' + ${page.pages} +'&price='+ ${price} + '&sale=' + ${sale}"
+                       aria-label="Next">
+                        <span aria-hidden="true">末页</span>
+                    </a>
+                </li>
+                <span th:text="'总条数：' + ${page.total}"
+                      style="color:red;margin-left: 20px; height: 32px; line-height: 32px;"></span>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="/static/jquery.js"></script>
+<script src="/static/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function logout() {
+        $.ajax({
+            type: "POST",
+            url: "/logout",
+            success: function (result) {
+                alert(result.rspMsg)
+                setTimeout(function () {
+                    location.href = "/login"
+                }, 1000);
+            }
+        })
+    }
+
+    function searchFlower() {
+        var flowerKeyword = $('#flower-keyword').val()
+        location.href = "/flower/search?keyword=" + flowerKeyword + "&page=1&price=0&sale=0";
+    }
+
+    function saleFlower(sale) {
+        var flowerKeyword = $('#flower-keyword').val()
+        if (sale == 0 || sale == 1) {
+            location.href = "/flower/search?keyword=" + flowerKeyword + "&page=1&price=0&sale=2";
+        } else if (sale == 2) {
+            location.href = "/flower/search?keyword=" + flowerKeyword + "&page=1&price=0&sale=1";
+        }
+    }
+    
+    function priceFlower(price) {
+        var flowerKeyword = $('#flower-keyword').val()
+        if (price == 0 || price == 1) {
+            location.href = "/flower/search?keyword=" + flowerKeyword + "&page=1&price=2&sale=0";
+        } else if (price == 2) {
+            location.href = "/flower/search?keyword=" + flowerKeyword + "&page=1&price=1&sale=0";
+        }
+    }
+
+</script>
+</body>
+</html>
+
