@@ -54,4 +54,10 @@ public class FlowerServiceImpl extends ServiceImpl<FlowerMapper, Flower> impleme
     public List<Flower> findBySale() {
         return mapper.findBySale();
     }
+
+    @Override
+    public List<Flower> recommendForMe() {
+        List<Flower> flowerList= mapper.recommendForMe();
+        return flowerList;
+    }
 }

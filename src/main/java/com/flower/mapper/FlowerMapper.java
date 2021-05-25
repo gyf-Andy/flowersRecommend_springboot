@@ -41,4 +41,11 @@ public interface FlowerMapper extends BaseMapper<Flower> {
             "<if test='sale==2'>ORDER BY sale desc</if>" +
             "</script>")
     List<Flower> selectBySearch(@Param("keyword") String keyword, @Param("price") Integer price, @Param("sale") Integer sale);
+
+    /**
+     * 获取推荐的鲜花信息
+     * @return 推荐鲜花的列表
+     */
+    @Select("select * from flower order by rand() limit 8")
+    List<Flower> recommendForMe();
 }

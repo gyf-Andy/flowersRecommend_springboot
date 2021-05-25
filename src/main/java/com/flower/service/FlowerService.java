@@ -47,4 +47,6 @@ public interface FlowerService extends IService<Flower> {
      * @return 鲜花列表
      */
     List<Flower> findBySale();
+
+    List<Flower> recommendForMe();
 }

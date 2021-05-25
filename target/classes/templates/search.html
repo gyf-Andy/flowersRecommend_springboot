@@ -20,7 +20,7 @@
 <header class="navbar navbar-default navbar-fixed-top bs-docs-nav" id="top">
     <div class="container">
         <div class="navbar-header">
-            <a href="" class="navbar-brand">欢迎来到鲜花推荐系统</a>
+            <a href="/flower/search" class="navbar-brand">欢迎来到鲜花推荐系统</a>
         </div>
         <div class="navbar-collapse collapse" role="navigation">
             <ul class="nav navbar-nav navbar-right hidden-sm">
@@ -41,18 +41,23 @@
         </div>
     </div>
     <div class="row">
-        <div class="btn-group" role="group" style="margin-left: 10px">
-            <button type="button" onclick="searchFlower()" th:class="${sale==0&&price==0 ? 'btn btn-success' : 'btn btn-default'}">综合</button>
-            <button type="button" th:onclick="saleFlower([[${sale}]])" th:class="${sale==0 ? 'btn btn-default' : 'btn btn-success'}">
-                <span th:if="${sale==1}" class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-                <span th:if="${sale==2}" class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                销量
-            </button>
-            <button type="button" th:onclick="priceFlower([[${price}]])" th:class="${price==0 ? 'btn btn-default' : 'btn btn-success'}">
-                <span th:if="${price==1}" class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-                <span th:if="${price==2}" class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                价格
-            </button>
+        <div class="col-sm-6">
+            <div class="btn-group" role="group" style="margin-left: 10px">
+                <button type="button" onclick="searchFlower()" th:class="${sale==0&&price==0 ? 'btn btn-success' : 'btn btn-default'}">综合</button>
+                <button type="button" th:onclick="saleFlower([[${sale}]])" th:class="${sale==0 ? 'btn btn-default' : 'btn btn-success'}">
+                    <span th:if="${sale==1}" class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                    <span th:if="${sale==2}" class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                    销量
+                </button>
+                <button type="button" th:onclick="priceFlower([[${price}]])" th:class="${price==0 ? 'btn btn-default' : 'btn btn-success'}">
+                    <span th:if="${price==1}" class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                    <span th:if="${price==2}" class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                    价格
+                </button>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <a href="/flower/recommendForMe"><button type="button" class="btn btn-info pull-right" style="background: #357bb7" >推荐鲜花</button></a>
         </div>
     </div>
     <div class="recommend" style="margin-top: 20px;">

@@ -5,6 +5,7 @@ import com.flower.service.FlowerService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,5 +52,17 @@ public class FlowerController {
         modelMap.addAttribute("keyword", keyword);
         ModelAndView mav = new ModelAndView("search", modelMap);
         return mav;
+    }
+
+    /**
+     * 获取推荐的鲜花
+     * @param model  存放鲜花的List容器
+     * @return 返回index页面
+     */
+    @GetMapping("/recommendForMe")
+    public String recommendForMe(Model model){
+        List<Flower> flowerList=flowerService.recommendForMe();
+        model.addAttribute("flowers",flowerList);
+        return "index";
     }
 }
