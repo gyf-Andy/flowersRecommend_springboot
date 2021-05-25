@@ -10,22 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bebc16c2-2c5d-4cc5-a156-7c8894884a9b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flower/controller/FlowerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flower/controller/FlowerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flower/mapper/FlowerMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flower/mapper/FlowerMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flower/service/FlowerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flower/service/FlowerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/flower/service/impl/FlowerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/flower/service/impl/FlowerServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/flower/controller/FlowerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flower/controller/FlowerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/flower/mapper/FlowerMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flower/mapper/FlowerMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/flower/service/FlowerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flower/service/FlowerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/flower/service/impl/FlowerServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/flower/service/impl/FlowerServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/search.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,6 +163,7 @@
       <workItem from="1621858621982" duration="4645000" />
       <workItem from="1621867070398" duration="343000" />
       <workItem from="1621906838935" duration="61000" />
+      <workItem from="1621917414431" duration="670000" />
     </task>
     <task id="LOCAL-00001" summary="对上传代码进行测试">
       <created>1618217612445</created>
@@ -193,15 +179,34 @@
       <option name="project" value="LOCAL" />
       <updated>1618288250674</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="对页面进行微调，加一个推荐功能(未真正实现)">
+      <created>1621917530224</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1621917530224</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="对上传代码进行测试" />
     <MESSAGE value="对上传代码进行测试 (更新github仓库测试)" />
-    <option name="LAST_COMMIT_MESSAGE" value="对上传代码进行测试 (更新github仓库测试)" />
+    <MESSAGE value="对页面进行微调，加一个推荐功能(未真正实现)" />
+    <option name="LAST_COMMIT_MESSAGE" value="对页面进行微调，加一个推荐功能(未真正实现)" />
   </component>
 </project>
